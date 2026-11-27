@@ -1,0 +1,23 @@
+$kind: http-request
+url: "{{base_url}}/posts"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "title": "Test post",
+      "body": "Created from Postman",
+      "userId": 1
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status is 201", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Response has id", function () {
+          const data = pm.response.json();
+          pm.expect(data).to.have.property("id");
+      });
+    language: text/javascript
+order: 3000
